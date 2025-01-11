@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="model.PickupHistoryMapper">
+    <select id="getAllPickupHistories" resultType="model.PickupHistory">
+        SELECT date, pemesan, barang, address, status, category FROM pickup_history
+    </select>
+    <select id="getAllPickupHistoriesByCategory" parameterType="string" resultType="model.PickupHistory">
+        SELECT date, pemesan, barang, address, status, category FROM pickup_history WHERE category = #{category}
+    </select>
+</mapper>
