@@ -17,7 +17,7 @@ import java.util.List;
 import model.Review;
 
 public class ReviewPage extends JFrame {
-    private JTextField txtNamaPengguna;
+   private JTextField txtNamaPengguna;
     private JTextArea txtReview;
     private JTable tblReview;
     private DefaultTableModel tableModel;
@@ -62,6 +62,14 @@ public class ReviewPage extends JFrame {
         btnHapus.setBounds(400, 100, 100, 25);
         add(btnHapus);
 
+        JButton btnKembali = new JButton("Kembali");
+        btnKembali.setBounds(20, 420, 100, 25);
+        add(btnKembali);
+
+        JButton btnNextReview = new JButton("Ulasan Selanjutnya");
+        btnNextReview.setBounds(540, 420, 150, 25);
+        add(btnNextReview);
+
         // Tabel untuk menampilkan data review
         String[] columnNames = {"Nama Pengguna", "Review"};
         tableModel = new DefaultTableModel(columnNames, 0);
@@ -91,6 +99,23 @@ public class ReviewPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 hapusReview();
+            }
+        });
+
+        // Tombol Kembali
+        btnKembali.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Aksi untuk kembali, misalnya menutup halaman ini
+                dispose();
+            }
+        });
+
+        // Tombol Ulasan Selanjutnya
+        btnNextReview.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ulasanSelanjutnya();
             }
         });
     }
@@ -159,6 +184,22 @@ public class ReviewPage extends JFrame {
     private void clearFields() {
         txtNamaPengguna.setText("");
         txtReview.setText("");
+    }
+
+    private void ulasanSelanjutnya() {
+        int selectedRow = tblReview.getSelectedRow();
+        if (selectedRow == -1 || selectedRow >= reviewList.size() - 1) {
+            JOptionPane.showMessageDialog(this, "Tidak ada ulasan selanjutnya!", "Info", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // Pilih baris berikutnya
+        tblReview.setRowSelectionInterval(selectedRow + 1, selectedRow + 1);
+
+        // Tampilkan data di input field
+        Review nextReview = reviewList.get(selectedRow + 1);
+        txtNamaPengguna.setText(nextReview.getNamaPengguna());
+        txtReview.setText(nextReview.getKomentar());
     }
 
     public static void main(String[] args) {
